@@ -31,3 +31,7 @@ import './index.css';
 console.log(
   '👋 This message is being logged by "renderer.ts", included via Vite',
 );
+
+document.getElementById('print-btn').addEventListener('click', () => {
+  (window as any).electronAPI.printTest();
+});

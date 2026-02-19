@@ -1,37 +1,64 @@
-/**
- * This file will automatically be loaded by vite and run in the "renderer" context.
- * To learn more about the differences between the "main" and the "renderer" context in
- * Electron, visit:
- *
- * https://electronjs.org/docs/tutorial/process-model
- *
- * By default, Node.js integration in this file is disabled. When enabling Node.js integration
- * in a renderer process, please be aware of potential security implications. You can read
- * more about security risks here:
- *
- * https://electronjs.org/docs/tutorial/security
- *
- * To enable Node.js integration in this file, open up `main.ts` and enable the `nodeIntegration`
- * flag:
- *
- * ```
- *  // Create the browser window.
- *  mainWindow = new BrowserWindow({
- *    width: 800,
- *    height: 600,
- *    webPreferences: {
- *      nodeIntegration: true
- *    }
- *  });
- * ```
- */
-
 import './index.css';
 
-console.log(
-  '👋 This message is being logged by "renderer.ts", included via Vite',
-);
+const API = 'http://127.0.0.1:9100';
 
-document.getElementById('print-btn').addEventListener('click', () => {
-  (window as any).electronAPI.printTest();
+const statusDot = document.getElementById('status-dot')!;
+const statusText = document.getElementById('status-text')!;
+const printerSelect = document.getElementById('printer-select') as HTMLSelectElement;
+
+async function checkHealth() {
+  try {
+    const res = await fetch(`${API}/health`);
+    if (res.ok) {
+      statusDot.className = 'status-dot ok';
+      statusText.textContent = 'Server running on port 9100';
+    } else {
+      throw new Error();
+    }
+  } catch {
+    statusDot.className = 'status-dot error';
+    statusText.textContent = 'Server not responding';
+  }
+}
+
+async function loadPrinters() {
+  printerSelect.innerHTML = '<option value="" disabled selected>Loading...</option>';
+  try {
+    const res = await fetch(`${API}/printers`);
+    const data = await res.json();
+    const printers: { name: string }[] = data.printers;
+
+    if (printers.length === 0) {
+      printerSelect.innerHTML = '<option value="" disabled selected>No printers found</option>';
+      return;
+    }
+
+    printerSelect.innerHTML = '';
+    for (const p of printers) {
+      const option = document.createElement('option');
+      option.value = p.name;
+      option.textContent = p.name;
+      printerSelect.appendChild(option);
+    }
+  } catch {
+    printerSelect.innerHTML = '<option value="" disabled selected>Failed to load printers</option>';
+  }
+}
+
+function refresh() {
+  checkHealth();
+  loadPrinters();
+}
+
+document.getElementById('print-btn')!.addEventListener('click', () => {
+  const printer = printerSelect.value;
+  if (!printer) {
+    alert('Please select a printer first.');
+    return;
+  }
+  (window as any).electronAPI.printTest(printer);
 });
+
+document.getElementById('refresh-btn')!.addEventListener('click', refresh);
+
+refresh();

@@ -5,7 +5,7 @@ import { printTest } from './print';
 import { startServer } from './server';
 import { createTray } from './tray';
 
-ipcMain.handle('print-test', () => printTest());
+ipcMain.handle('print-test', (_event, printer: string) => printTest(printer));
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {

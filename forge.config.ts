@@ -14,6 +14,7 @@ const config: ForgeConfig = {
     asar: true,
     extraResource: [
       './assets',
+      './samples',
       './node_modules/pdf-to-printer/dist/SumatraPDF-3.4.6-32.exe',
     ],
   },

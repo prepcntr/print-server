@@ -13,12 +13,12 @@ export interface PrintFileOptions {
   side?: "duplex" | "duplexshort" | "duplexlong" | "simplex";
 }
 
-export async function printTest() {
+export async function printTest(printer: string) {
   console.log("Starting print test...");
-  // const file = "/Users/michael/projects/print-server/samples/RL1362.pdf";
-  const file = "/Users/michael/projects/print-server/samples/sample_label_57mm_x_32mm.pdf";
-  const printer = "_4BARCODE_4B_2054N";
-  printFile(file, printer, { copies: 2 }).then(() => {
+  const file = app.isPackaged
+    ? path.join(process.resourcesPath, "samples", "sample_label_57mm_x_32mm.pdf")
+    : path.join(app.getAppPath(), "samples", "sample_label_57mm_x_32mm.pdf");
+  printFile(file, printer).then(() => {
     console.log("Print job sent successfully");
   }).catch((error) => {
     console.error("Error sending print job:", error);

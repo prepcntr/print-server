@@ -11,10 +11,11 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 
 const config: ForgeConfig = {
   packagerConfig: {
-    asar: {
-      unpack: '**/node_modules/pdf-to-printer/**',
-    },
-    extraResource: ['./assets'],
+    asar: true,
+    extraResource: [
+      './assets',
+      './node_modules/pdf-to-printer/dist/SumatraPDF-3.4.6-32.exe',
+    ],
   },
   rebuildConfig: {},
   publishers: [

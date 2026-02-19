@@ -1,6 +1,8 @@
 import os from "os";
+import path from "node:path";
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
+import { app } from "electron";
 
 const execAsync = promisify(exec);
 
@@ -39,7 +41,10 @@ export async function listPrinters(): Promise<{ name: string }[]> {
 export async function printFile(file: string, printer: string, options: PrintFileOptions = {}) {
   if (os.platform() === "win32") {
     const { print } = await import("pdf-to-printer");
-    return print(file, { printer, ...options });
+    const sumatraPdfPath = app.isPackaged
+      ? path.join(process.resourcesPath, "SumatraPDF-3.4.6-32.exe")
+      : undefined;
+    return print(file, { printer, sumatraPdfPath, ...options });
   } else {
     const { print } = await import("unix-print");
     const flags: string[] = [];

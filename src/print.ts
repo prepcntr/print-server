@@ -43,7 +43,7 @@ export async function printFile(file: string, printer: string, options: PrintFil
     const { print } = await import("pdf-to-printer");
     const sumatraPdfPath = app.isPackaged
       ? path.join(process.resourcesPath, "SumatraPDF-3.4.6-32.exe")
-      : undefined;
+      : path.join(app.getAppPath(), "node_modules", "pdf-to-printer", "dist", "SumatraPDF-3.4.6-32.exe");
     return print(file, { printer, sumatraPdfPath, ...options });
   } else {
     const { print } = await import("unix-print");

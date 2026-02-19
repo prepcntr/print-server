@@ -3,6 +3,8 @@ import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { MakerZIP } from '@electron-forge/maker-zip';
 import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerRpm } from '@electron-forge/maker-rpm';
+import { MakerDMG } from '@electron-forge/maker-dmg';
+import { PublisherGithub } from '@electron-forge/publisher-github';
 import { VitePlugin } from '@electron-forge/plugin-vite';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
@@ -13,11 +15,20 @@ const config: ForgeConfig = {
     extraResource: ['./assets'],
   },
   rebuildConfig: {},
+  publishers: [
+    new PublisherGithub({
+      repository: {
+        owner: 'prepcntr',
+        name: 'print-server',
+      },
+    }),
+  ],
   makers: [
-    new MakerSquirrel({}),
+    new MakerSquirrel({}, ['win32']),
+    new MakerDMG({}, ['darwin']),
     new MakerZIP({}, ['darwin']),
-    new MakerRpm({}),
-    new MakerDeb({}),
+    new MakerRpm({}, ['linux']),
+    new MakerDeb({}, ['linux']),
   ],
   plugins: [
     new VitePlugin({

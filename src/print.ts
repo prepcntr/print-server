@@ -1,4 +1,8 @@
 import os from "os";
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+
+const execAsync = promisify(exec);
 
 export interface PrintFileOptions {
   copies?: number;
@@ -17,6 +21,19 @@ export async function printTest() {
   }).catch((error) => {
     console.error("Error sending print job:", error);
   });
+}
+
+export async function listPrinters(): Promise<{ name: string }[]> {
+  if (os.platform() === "win32") {
+    const { getPrinters } = await import("pdf-to-printer");
+    return getPrinters();
+  } else {
+    const { stdout } = await execAsync("lpstat -a");
+    return stdout
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => ({ name: line.split(" ")[0] }));
+  }
 }
 
 export async function printFile(file: string, printer: string, options: PrintFileOptions = {}) {

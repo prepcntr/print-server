@@ -1,1 +1,6 @@
 git tag v1.0.0 && git push origin v1.0.0
+
+
+
+sudo xattr -rd com.apple.quarantine "/Applications/PrepCntr Print Server.app"
+xattr -c "/Applications/PrepCntr Print Server.app"

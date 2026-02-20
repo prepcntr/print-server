@@ -1,6 +1,6 @@
 {
   "name": "print-server",
-  "productName": "print-server",
+  "productName": "PrepCntr Print Server",
   "version": "1.0.0",
   "description": "Print server application for prepcntr",
   "main": ".vite/build/main.js",

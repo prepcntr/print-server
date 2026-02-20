@@ -11,11 +11,11 @@ export function createTray(getWindow: () => BrowserWindow | null): Tray {
   const icon = nativeImage.createFromPath(iconPath).resize({ width: 16, height: 16 });
 
   tray = new Tray(icon);
-  tray.setToolTip("Print Server");
+  tray.setToolTip("PrepCntr Print Server");
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: "Print Server is running",
+      label: "PrepCntr Print Server is running",
       enabled: false,
     },
     { type: "separator" },

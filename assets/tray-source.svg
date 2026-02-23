@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Outline-style printer icon for macOS Template image -->
+  <!-- Stroke-based (no fill) so the interior is transparent -->
+  <!-- At 16px, 44px stroke in 512 viewBox ≈ 1.4px — clear and legible -->
+
+  <!-- Input paper sheet (sticking out of top) -->
+  <rect x="192" y="20" width="128" height="150" rx="10"
+        fill="none" stroke="black" stroke-width="44"/>
+
+  <!-- Printer body -->
+  <rect x="44" y="164" width="424" height="214" rx="28"
+        fill="none" stroke="black" stroke-width="44"/>
+
+  <!-- Output paper sheet (coming out of bottom) -->
+  <rect x="192" y="372" width="128" height="120" rx="10"
+        fill="none" stroke="black" stroke-width="44"/>
+</svg>

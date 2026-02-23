@@ -12,6 +12,7 @@ const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
     executableName: 'print-server',
+    icon: './assets/icon',
     extraResource: [
       './assets',
       './samples',
@@ -28,7 +29,7 @@ const config: ForgeConfig = {
     }),
   ],
   makers: [
-    new MakerSquirrel({}, ['win32']),
+    new MakerSquirrel({ setupIcon: './assets/icon.ico' }, ['win32']),
     new MakerDMG({}, ['darwin']),
     new MakerRpm({}, ['linux']),
     new MakerDeb({}, ['linux']),

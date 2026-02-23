@@ -5,7 +5,7 @@ import { printTest } from './print';
 import { startServer } from './server';
 import { createTray } from './tray';
 
-ipcMain.handle('print-test', (_event, printer: string) => printTest(printer));
+ipcMain.handle('print-test', (_event, printer: string, filePath?: string) => printTest(printer, filePath));
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -19,7 +19,7 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    show: false,
+    show: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },

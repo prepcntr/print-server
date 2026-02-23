@@ -4,5 +4,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  printTest: (printer: string) => ipcRenderer.invoke('print-test', printer),
+  printTest: (printer: string, filePath?: string) => ipcRenderer.invoke('print-test', printer, filePath),
 });

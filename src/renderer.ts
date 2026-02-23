@@ -5,6 +5,8 @@ const API = 'http://127.0.0.1:9100';
 const statusDot = document.getElementById('status-dot')!;
 const statusText = document.getElementById('status-text')!;
 const printerSelect = document.getElementById('printer-select') as HTMLSelectElement;
+const pdfInput = document.getElementById('pdf-input') as HTMLInputElement;
+const pdfLabel = document.getElementById('pdf-label')!;
 
 async function checkHealth() {
   try {
@@ -50,13 +52,20 @@ function refresh() {
   loadPrinters();
 }
 
+pdfInput.addEventListener('change', () => {
+  const file = pdfInput.files?.[0];
+  pdfLabel.textContent = file ? file.name : 'Default sample';
+});
+
 document.getElementById('print-btn')!.addEventListener('click', () => {
   const printer = printerSelect.value;
   if (!printer) {
     alert('Please select a printer first.');
     return;
   }
-  (window as any).electronAPI.printTest(printer);
+  const file = pdfInput.files?.[0];
+  const filePath: string | undefined = file ? (file as any).path : undefined;
+  (window as any).electronAPI.printTest(printer, filePath);
 });
 
 document.getElementById('refresh-btn')!.addEventListener('click', refresh);

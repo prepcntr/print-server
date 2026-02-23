@@ -13,11 +13,11 @@ export interface PrintFileOptions {
   side?: "duplex" | "duplexshort" | "duplexlong" | "simplex";
 }
 
-export async function printTest(printer: string) {
+export async function printTest(printer: string, filePath?: string) {
   console.log("Starting print test...");
-  const file = app.isPackaged
+  const file = filePath ?? (app.isPackaged
     ? path.join(process.resourcesPath, "samples", "sample_label_57mm_x_32mm.pdf")
-    : path.join(app.getAppPath(), "samples", "sample_label_57mm_x_32mm.pdf");
+    : path.join(app.getAppPath(), "samples", "sample_label_57mm_x_32mm.pdf"));
   printFile(file, printer).then(() => {
     console.log("Print job sent successfully");
   }).catch((error) => {
